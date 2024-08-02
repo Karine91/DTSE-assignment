@@ -10,7 +10,6 @@ import {
 } from "@/components/ui/table";
 import { getFormattedPrice } from "@/lib/format-price";
 import Link from "next/link";
-import { TName } from "./types";
 
 const RegionsList = async () => {
   const data = await getRegions();
@@ -53,21 +52,6 @@ const RegionsList = async () => {
           ))}
         </TableBody>
       </Table>
-      {/* <ul role="list" className="divide-y divide-gray-100 ">
-        {data.map((item) => (
-          <li
-            className="odd:bg-white even:bg-slate-50 hover:bg-slate-200 group/item"
-            key={item.code}
-          >
-            <Link href={`/${item.code}`} className="flex px-2 py-5">
-              {item.name}
-              <span className="ml-auto invisible group-hover/item:visible">
-                icon
-              </span>
-            </Link>
-          </li>
-        ))}
-      </ul> */}
     </section>
   );
 };

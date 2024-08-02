@@ -1,4 +1,5 @@
 import RegionsList from "@/app/(overview)/RegionsList";
+import Spinner from "@ui/Spinner";
 import { Suspense } from "react";
 
 export default function Home() {
@@ -7,7 +8,7 @@ export default function Home() {
       <h1 className="m-10 text-4xl font-extrabold tracking-tight lg:text-5xl">
         Overview
       </h1>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<Spinner />}>
         <RegionsList />
       </Suspense>
     </main>
