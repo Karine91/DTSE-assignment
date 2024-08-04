@@ -37,7 +37,12 @@ function transformResponseData(data: TDayPriceAverageData) {
     .sort((a, b) => a.price - b.price);
 }
 
-export async function getRegions() {
+export type IRegionsData = ReturnType<typeof transformResponseData>;
+
+export type TGetRegionsProps = { search: string | undefined };
+
+export async function getRegions({ search }: TGetRegionsProps) {
+  console.log({ search });
   const date = new Date();
   const year = date.getFullYear();
 
