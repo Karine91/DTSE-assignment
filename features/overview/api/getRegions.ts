@@ -1,6 +1,7 @@
 "use server";
 
-import { TDayPriceAverageData, TName } from "./types";
+import { TDayPriceAverageData, TName } from "../types";
+
 import { biddingZones } from "./biddingZonesData";
 
 const getRegionName = (name: TName[] | TName) => {

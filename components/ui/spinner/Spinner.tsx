@@ -1,4 +1,5 @@
 import { cva, type VariantProps } from "class-variance-authority";
+
 import { cn } from "@/lib/utils";
 
 type ExcludeNull<T> = { [P in keyof T]: Exclude<T[P], null> };
@@ -37,12 +38,10 @@ export interface LoadingProps extends CustomVariantProp<typeof spinner> {
   className?: string;
 }
 
-const Spinner = ({ size, thickness }: LoadingProps) => {
+export const Spinner = ({ size, thickness }: LoadingProps) => {
   return (
     <div className={cn(spinner({ size, thickness }))}>
       <span className="hidden">Loading...</span>
     </div>
   );
 };
-
-export default Spinner;

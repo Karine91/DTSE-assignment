@@ -1,4 +1,5 @@
-import { getRegions } from "./actions";
+import Link from "next/link";
+
 import {
   Table,
   TableBody,
@@ -9,15 +10,16 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { getFormattedPrice } from "@/lib/format-price";
-import Link from "next/link";
 
-const RegionsList = async () => {
+import { getRegions } from "../api/getRegions";
+
+export const RegionsList = async () => {
   const data = await getRegions();
 
   return (
     <section className="w-9/12">
       <Table>
-        <TableCaption className="text-lg caption-top mb-2">
+        <TableCaption className="text-lg">
           Average day-ahead electricity spot market prices at{" "}
           {new Date().toLocaleDateString()}
         </TableCaption>
@@ -55,5 +57,3 @@ const RegionsList = async () => {
     </section>
   );
 };
-
-export default RegionsList;
