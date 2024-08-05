@@ -13,11 +13,14 @@ import { getFormattedPrice } from "@/lib/format-price";
 
 import { IRegionsData } from "../api/getRegions";
 
+import { NoData } from "./NoData";
+
 interface IRegionsTableProps {
-  data: IRegionsData;
+  data: IRegionsData[];
 }
 
 export const RegionsTable = ({ data }: IRegionsTableProps) => {
+  if (!data.length) return <NoData />;
   return (
     <Table>
       <TableCaption className="text-lg">

@@ -14,8 +14,6 @@ export const Search = () => {
   const search = searchParams.get("search");
   const [searchInput, setSearchInput] = useState(search || "");
 
-  console.log(search);
-
   const handleSearch = (e: React.FormEvent) => {
     e.preventDefault();
     const newSearchParams = new URLSearchParams(searchParams.toString());

@@ -11,7 +11,14 @@ const getRegionName = (name: TName[] | TName) => {
   return name.en;
 };
 
-function transformResponseData(data: TDayPriceAverageData) {
+export interface IRegionsData {
+  price: number;
+  unit: string;
+  name: string;
+  zoneCode: string;
+}
+
+function transformResponseData(data: TDayPriceAverageData, search?: string) {
   const date = new Date().toLocaleDateString();
   const dataIndex = data[0].xAxisValues.findIndex((item) => item === date);
 
@@ -33,16 +40,21 @@ function transformResponseData(data: TDayPriceAverageData) {
         }
       }
     })
-    .filter((item) => !!item)
+    .filter((item): item is IRegionsData => {
+      const _search = search?.toLowerCase();
+      return !!item
+        ? _search
+          ? item.name.toLowerCase().startsWith(_search) ||
+            item.zoneCode.toLowerCase() === _search
+          : true
+        : false;
+    })
     .sort((a, b) => a.price - b.price);
 }
-
-export type IRegionsData = ReturnType<typeof transformResponseData>;
 
 export type TGetRegionsProps = { search: string | undefined };
 
 export async function getRegions({ search }: TGetRegionsProps) {
-  console.log({ search });
   const date = new Date();
   const year = date.getFullYear();
 
@@ -60,5 +72,5 @@ export async function getRegions({ search }: TGetRegionsProps) {
   }
 
   const data = (await res.json()) as TDayPriceAverageData;
-  return transformResponseData(data);
+  return transformResponseData(data, search);
 }
