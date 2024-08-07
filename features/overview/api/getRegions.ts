@@ -1,6 +1,13 @@
 "use server";
 
-import { TDayPriceAverageData, TName } from "../types";
+import { client } from "@/lib/api-client";
+
+import {
+  TDayPriceAverageData,
+  TName,
+  TGetRegionsProps,
+  IRegionsData,
+} from "../types";
 
 import { biddingZones } from "./biddingZonesData";
 
@@ -10,13 +17,6 @@ const getRegionName = (name: TName[] | TName) => {
   }
   return name.en;
 };
-
-export interface IRegionsData {
-  price: number;
-  unit: string;
-  name: string;
-  zoneCode: string;
-}
 
 function transformResponseData(data: TDayPriceAverageData, search?: string) {
   const date = new Date().toLocaleDateString();
@@ -52,8 +52,6 @@ function transformResponseData(data: TDayPriceAverageData, search?: string) {
     .sort((a, b) => a.price - b.price);
 }
 
-export type TGetRegionsProps = { search: string | undefined };
-
 export async function getRegions({ search }: TGetRegionsProps) {
   const date = new Date();
   const year = date.getFullYear();
@@ -61,16 +59,12 @@ export async function getRegions({ search }: TGetRegionsProps) {
   const month = date.getMonth() + 1;
 
   // it is not the public api url from the provided api link but gives needed information
-  const res = await fetch(
+  const data: TDayPriceAverageData = await client(
     `https://energy-charts.info/charts/price_average/data/all/day_month_euro_mwh_${year}_${
       month < 10 ? "0" + month : month
-    }.json`
+    }.json`,
+    { fullPath: true }
   );
 
-  if (!res.ok) {
-    throw new Error("Price average data for regions: Failed to fetch data");
-  }
-
-  const data = (await res.json()) as TDayPriceAverageData;
   return transformResponseData(data, search);
 }

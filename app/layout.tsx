@@ -4,6 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 
 import { cn } from "@/lib/utils";
+import { AppProvider } from "@/providers/AppProvider";
 
 const fontSans = Inter({ subsets: ["latin"], variable: "--font-sans" });
 
@@ -25,7 +26,11 @@ export default function RootLayout({
           fontSans.variable
         )}
       >
-        {children}
+        <AppProvider>
+          <main className="flex min-h-screen items-center flex-col p-24">
+            {children}
+          </main>
+        </AppProvider>
       </body>
     </html>
   );
