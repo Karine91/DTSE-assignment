@@ -24,6 +24,11 @@ interface ITabsProps extends TabsProps {
    *  this value will be set to the first item value from headersList
    * */
   defaultValue?: string;
+
+  /**
+   * Align tabs buttons (triggers)
+   */
+  tabsTriggerAlign?: "start" | "center" | "end";
 }
 
 /**
@@ -34,13 +39,14 @@ export const Tabs = ({
   children,
   defaultValue = headersList[0].value,
   value,
+  tabsTriggerAlign = "start",
   ...tabsProps
 }: ITabsProps) => {
   const childrenArray = React.Children.toArray(children);
   let defaultV = typeof value !== "undefined" ? undefined : defaultValue;
   return (
     <TabsBase defaultValue={defaultV} value={value} {...tabsProps}>
-      <TabsList>
+      <TabsList alignment={tabsTriggerAlign}>
         {headersList.map((item) => (
           <TabsTrigger {...item} key={item.value} />
         ))}

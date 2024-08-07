@@ -6,6 +6,8 @@ import { Tabs } from "@/components/ui/tabs/Tabs";
 
 import { useZonePrice } from "../api/getZonePrice";
 
+import CurrentPriceView from "./CurrentPriceView";
+
 const headersList = [
   { value: "current", children: "Current Prices" },
   { value: "average", children: "Low, high, average data" },
@@ -20,11 +22,16 @@ export const BiddingZonePriceDetailsContainer = ({
   if (!data && !isLoading) {
     notFound();
   }
-  console.log(data);
+
+  if (isLoading) {
+    return "Loading...";
+  }
+
+  if (!data) return;
   return (
-    <div>
+    <div className="flex-grow">
       <Tabs headersList={headersList}>
-        <div>Current</div>
+        <CurrentPriceView data={data} />
         <div>Average</div>
       </Tabs>
     </div>

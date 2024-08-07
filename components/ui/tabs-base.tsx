@@ -2,22 +2,42 @@
 
 import * as TabsPrimitive from "@radix-ui/react-tabs";
 import * as React from "react";
+import { cva, VariantProps } from "class-variance-authority";
 
 import { cn } from "@/lib/utils";
 
-const Tabs = TabsPrimitive.Root;
-export type { TabsProps } from "@radix-ui/react-tabs";
+import type { TabsProps } from "@radix-ui/react-tabs";
+
+const Tabs = (props: TabsProps) => (
+  <TabsPrimitive.Root className="flex flex-col" {...props} />
+);
+
+export type { TabsProps };
+
+const tabsListVariants = cva(
+  "inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground",
+  {
+    variants: {
+      alignment: {
+        start: "self-start",
+        center: "self-center",
+        end: "self-end",
+      },
+    },
+    defaultVariants: {
+      alignment: "start",
+    },
+  }
+);
 
 const TabsList = React.forwardRef<
   React.ElementRef<typeof TabsPrimitive.List>,
-  React.ComponentPropsWithoutRef<typeof TabsPrimitive.List>
->(({ className, ...props }, ref) => (
+  React.ComponentPropsWithoutRef<typeof TabsPrimitive.List> &
+    VariantProps<typeof tabsListVariants>
+>(({ className, alignment, ...props }, ref) => (
   <TabsPrimitive.List
     ref={ref}
-    className={cn(
-      "inline-flex h-10 items-center justify-center rounded-md bg-muted p-1 text-muted-foreground",
-      className
-    )}
+    className={cn(tabsListVariants({ alignment, className }))}
     {...props}
   />
 ));

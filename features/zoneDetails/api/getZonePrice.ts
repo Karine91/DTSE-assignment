@@ -3,13 +3,7 @@ import { useQuery, QueryClient } from "@tanstack/react-query";
 import { client } from "@/lib/api-client";
 import { TValidationError } from "@/types";
 
-interface IGetZonePriceOutput {
-  license_info: string;
-  unix_seconds: number[];
-  price: number[];
-  unit: string;
-  deprecated: boolean;
-}
+import { IGetZonePriceOutput } from "../types";
 
 type TGetZonePriceInput = {
   bzn: string;
