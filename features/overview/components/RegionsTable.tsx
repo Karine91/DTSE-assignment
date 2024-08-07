@@ -11,7 +11,7 @@ import {
 } from "@/components/ui/table";
 import { getFormattedPrice } from "@/lib/format-price";
 
-import { IRegionsData } from "../api/getRegions";
+import { IRegionsData } from "../types";
 
 import { NoData } from "./NoData";
 

@@ -38,9 +38,9 @@ export interface LoadingProps extends CustomVariantProp<typeof spinner> {
   className?: string;
 }
 
-export const Spinner = ({ size, thickness }: LoadingProps) => {
+export const Spinner = ({ size, thickness, className }: LoadingProps) => {
   return (
-    <div className={cn(spinner({ size, thickness }))}>
+    <div className={cn(spinner({ size, thickness, className }))}>
       <span className="hidden">Loading...</span>
     </div>
   );

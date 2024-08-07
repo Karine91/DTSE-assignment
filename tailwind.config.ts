@@ -79,7 +79,7 @@ const config = {
   },
   plugins: [require("tailwindcss-animate")],
   // to apply classes dynamically in storybook
-  // safelist: [{ pattern: /^(.*?)/ }],
+  //safelist: [{ pattern: /^(.*?)/ }],
 } satisfies Config;
 
 export default config;

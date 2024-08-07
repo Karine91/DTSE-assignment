@@ -2,7 +2,14 @@
 
 import { notFound } from "next/navigation";
 
+import { Tabs } from "@/components/ui/tabs/Tabs";
+
 import { useZonePrice } from "../api/getZonePrice";
+
+const headersList = [
+  { value: "current", children: "Current Prices" },
+  { value: "average", children: "Low, high, average data" },
+];
 
 export const BiddingZonePriceDetailsContainer = ({
   zoneCode,
@@ -14,5 +21,12 @@ export const BiddingZonePriceDetailsContainer = ({
     notFound();
   }
   console.log(data);
-  return <div>BiddingZonePriceDetailsContainer</div>;
+  return (
+    <div>
+      <Tabs headersList={headersList}>
+        <div>Current</div>
+        <div>Average</div>
+      </Tabs>
+    </div>
+  );
 };
