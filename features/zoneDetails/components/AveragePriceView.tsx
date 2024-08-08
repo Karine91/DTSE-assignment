@@ -1,15 +1,11 @@
-import { IGetZonePriceOutput } from "../types";
+import { ChartProps } from "../types";
 
 import AveragePriceChart from "./AveragePriceChart";
 
-interface IProps {
-  data: IGetZonePriceOutput;
-}
-
-const AveragePriceView = ({ data }: IProps) => {
+const AveragePriceView = (props: ChartProps) => {
   return (
-    <div>
-      <AveragePriceChart data={data} />
+    <div className="m-10 flex flex-col justify-center">
+      <AveragePriceChart {...props} />
     </div>
   );
 };

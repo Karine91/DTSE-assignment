@@ -1,12 +1,7 @@
 import * as d3 from "d3";
 import { useRef, useEffect } from "react";
 
-import { IGetZonePriceOutput } from "../types";
-import { getCombinedDataForCharts, type Data } from "../utils";
-
-interface IProps {
-  data: IGetZonePriceOutput;
-}
+import { ChartProps, ChartData } from "../types";
 
 const width = 840;
 const height = 500;
@@ -16,21 +11,20 @@ const marginBottom = 60;
 const marginLeft = 40;
 
 const showCirclesThreshold = 40;
+const textXAxisFormatThreshold = 30;
 
-const HourlyPricesChart = ({ data }: IProps) => {
+const HourlyPricesChart = ({ data, dataUnit }: ChartProps) => {
   const gx = useRef<SVGGElement>(null);
   const gy = useRef<SVGGElement>(null);
 
-  const combinedData = getCombinedDataForCharts(data);
-
   const x = d3
     .scaleTime()
-    .domain(d3.extent(combinedData, (d: Data) => d.date) as [number, number])
+    .domain(d3.extent(data, (d: ChartData) => d.date) as [number, number])
     .nice()
     .range([marginLeft, width - marginRight]);
 
-  const min = d3.min(combinedData, (d) => d.price) as number;
-  const max = d3.max(combinedData, (d) => d.price) as number;
+  const min = d3.min(data, (d) => d.price) as number;
+  const max = d3.max(data, (d) => d.price) as number;
 
   const y = d3
     .scaleLinear()
@@ -38,8 +32,8 @@ const HourlyPricesChart = ({ data }: IProps) => {
     .range([height - marginBottom, marginTop]);
 
   useEffect(() => {
-    let gySelection: d3.Selection<SVGGElement, Data, any, any>;
-    let gxSelection: d3.Selection<SVGGElement, Data, any, any>;
+    let gySelection: d3.Selection<SVGGElement, ChartData, any, any>;
+    let gxSelection: d3.Selection<SVGGElement, ChartData, any, any>;
 
     if (gx.current) {
       gxSelection = d3.select(gx.current);
@@ -50,7 +44,7 @@ const HourlyPricesChart = ({ data }: IProps) => {
           .tickSizeOuter(0)
       );
 
-      if (combinedData.length > 30) {
+      if (data.length > textXAxisFormatThreshold) {
         gxSelection
           .selectAll("text")
           .style("text-anchor", "end")
@@ -79,7 +73,7 @@ const HourlyPricesChart = ({ data }: IProps) => {
             .attr("y", 10)
             .attr("fill", "currentColor")
             .attr("text-anchor", "start")
-            .text(`Daily price (${data.unit})`)
+            .text(`↑ Price (${dataUnit})`)
         );
     }
 
@@ -87,23 +81,23 @@ const HourlyPricesChart = ({ data }: IProps) => {
       if (gxSelection) gxSelection.selectAll("*").remove();
       if (gySelection) gySelection.selectAll("*").remove();
     };
-  }, [x, y, data.unit]);
+  }, [x, y, dataUnit]);
 
   const areaBuilder = d3
-    .area<Data>()
+    .area<ChartData>()
     .x((d) => x(d.date))
     .y0(y(min))
     .y1((d) => y(d.price));
 
   const lineBuilder = d3
-    .line<Data>()
+    .line<ChartData>()
     .x((d) => x(d.date))
     .y((d) => y(d.price));
 
   const allCircles =
-    combinedData.length > showCirclesThreshold
+    data.length > showCirclesThreshold
       ? null
-      : combinedData.map((item, ind) => {
+      : data.map((item, ind) => {
           return (
             <circle
               key={ind}
@@ -119,12 +113,12 @@ const HourlyPricesChart = ({ data }: IProps) => {
     <div className="m-10">
       <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
         <path
-          d={areaBuilder(combinedData) as string}
+          d={areaBuilder(data) as string}
           className="area text-sky-200 fill-current"
         />
 
         <path
-          d={lineBuilder(combinedData) as string}
+          d={lineBuilder(data) as string}
           className="line stroke-sky-700 fill-none stroke-width-4"
         />
         {allCircles}

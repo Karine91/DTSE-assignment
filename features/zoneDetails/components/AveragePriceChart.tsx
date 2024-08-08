@@ -5,12 +5,7 @@ import { useRef, useEffect } from "react";
 
 import { dateFormat } from "@/lib/date-utils";
 
-import { IGetZonePriceOutput } from "../types";
-import { getCombinedDataForCharts, type Data } from "../utils";
-
-interface IProps {
-  data: IGetZonePriceOutput;
-}
+import { ChartProps, ChartData } from "../types";
 
 const width = 928;
 const height = 500;
@@ -19,9 +14,8 @@ const marginRight = 20;
 const marginBottom = 60;
 const marginLeft = 40;
 
-const transformData = (data: IGetZonePriceOutput) => {
-  const combinedData = getCombinedDataForCharts(data);
-  return chunk(combinedData, 24).map((item) => {
+const transformData = (data: ChartData[]) => {
+  return chunk(data, 24).map((item) => {
     const averagePrice =
       item.reduce((acc, cur) => acc + cur.price, 0) / item.length;
     return {
@@ -31,20 +25,15 @@ const transformData = (data: IGetZonePriceOutput) => {
   });
 };
 
-const AveragePriceHistogramChart = ({ data }: IProps) => {
+const AveragePriceHistogramChart = ({ data, dataUnit }: ChartProps) => {
   const gx = useRef<SVGGElement>(null);
   const gy = useRef<SVGGElement>(null);
+
   const dataSource = transformData(data);
 
   const x = d3
     .scaleBand()
-    .domain(
-      d3.groupSort(
-        dataSource,
-        ([d]) => d.price,
-        (d) => d.date
-      )
-    )
+    .domain(dataSource.map((d) => d.date))
     .range([marginLeft, width - marginRight])
     .padding(0.1);
 
@@ -97,7 +86,7 @@ const AveragePriceHistogramChart = ({ data }: IProps) => {
         <g ref={gx} transform={`translate(0, ${height - marginBottom})`}></g>
         <g ref={gy} transform={`translate(${marginLeft},0)`}>
           <text x={-marginLeft} y={10} fill="currentColor" textAnchor="start">
-            ↑ Price ({data.unit})
+            ↑ Price ({dataUnit})
           </text>
         </g>
       </svg>

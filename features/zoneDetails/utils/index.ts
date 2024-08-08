@@ -8,8 +8,3 @@ export const getCombinedDataForCharts = (data: IGetZonePriceOutput) => {
     };
   });
 };
-
-export interface Data {
-  date: number;
-  price: number;
-}

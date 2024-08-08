@@ -5,3 +5,13 @@ export interface IGetZonePriceOutput {
   unit: string;
   deprecated: boolean;
 }
+
+export interface ChartData {
+  date: number;
+  price: number;
+}
+
+export type ChartProps = {
+  data: ChartData[];
+  dataUnit: string;
+};

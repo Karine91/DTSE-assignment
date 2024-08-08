@@ -1,14 +1,11 @@
-import { IGetZonePriceOutput } from "../types";
+import type { ChartProps } from "../types";
 
 import HourlyPricesChart from "./HourlyPricesChart";
-interface IProps {
-  data: IGetZonePriceOutput;
-}
 
-const HourlyPriceView = ({ data }: IProps) => {
+const HourlyPriceView = ({ data, dataUnit }: ChartProps) => {
   return (
     <div className="m-10 flex flex-col justify-center">
-      <HourlyPricesChart data={data} />
+      <HourlyPricesChart data={data} dataUnit={dataUnit} />
     </div>
   );
 };

@@ -13,6 +13,8 @@ import { useZonePrice } from "../api/getZonePrice";
 
 import AveragePriceView from "./AveragePriceView";
 import HourlyPriceView from "./HourlyPriceView";
+import BackButton from "@/components/ui/BackButton";
+import { getCombinedDataForCharts } from "../utils";
 
 const TabView = {
   Hourly: "hourly",
@@ -44,8 +46,11 @@ export const BiddingZonePriceDetailsContainer = ({
     notFound();
   }
 
+  const chartData = data && getCombinedDataForCharts(data);
+
   return (
     <div className="w-4/5 flex-grow">
+      <BackButton variant={"secondary"} backUrl="/" />
       <div className="flex justify-end items-center mb-5 gap-2">
         <Label>Select date: </Label>
         <DatePickerWithRange
@@ -57,14 +62,14 @@ export const BiddingZonePriceDetailsContainer = ({
       <h2 className="text-xl my-4 ">
         Electricity prices: {getFormattedDaysRange(date, dateFormat)}
       </h2>
-      {data ? (
+      {chartData ? (
         <Tabs
           value={tabView}
           onValueChange={(value) => setTabView(value)}
           headersList={headersList}
         >
-          <HourlyPriceView data={data} />
-          <AveragePriceView data={data} />
+          <HourlyPriceView data={chartData} dataUnit={data.unit} />
+          <AveragePriceView data={chartData} dataUnit={data.unit} />
         </Tabs>
       ) : isLoading ? (
         "Loading..."
