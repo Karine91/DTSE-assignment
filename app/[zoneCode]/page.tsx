@@ -25,7 +25,9 @@ export default async function ZoneDetailsPage({
 }: {
   params: { zoneCode: string };
 }) {
-  const queryClient = await prefetchZonePrice({ bzn: params.zoneCode });
+  const queryClient = await prefetchZonePrice({
+    bzn: params.zoneCode,
+  });
   return (
     <HydrationBoundary state={dehydrate(queryClient)}>
       <BiddingZonePriceDetailsContainer zoneCode={params.zoneCode} />

@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import { useRef, useEffect, useMemo } from "react";
+import { useRef, useEffect } from "react";
 
 import { IGetZonePriceOutput } from "../types";
 
@@ -14,7 +14,7 @@ const marginRight = 20;
 const marginBottom = 30;
 const marginLeft = 40;
 
-const showCirclesThreshold = 20;
+const showCirclesThreshold = 40;
 
 interface Data {
   date: number;
@@ -25,40 +25,26 @@ const CurrentPriceChart = ({ data }: IProps) => {
   const gx = useRef<SVGGElement>(null);
   const gy = useRef<SVGGElement>(null);
 
-  const combinedData = useMemo(
-    () =>
-      data.unix_seconds.map((item, ind) => {
-        return {
-          date: item * 1000,
-          price: data.price[ind],
-        };
-      }),
-    [data]
-  );
+  const combinedData = data.unix_seconds.map((item, ind) => {
+    return {
+      date: item * 1000,
+      price: data.price[ind],
+    };
+  });
 
-  const x = useMemo(
-    () =>
-      d3
-        .scaleTime()
-        .domain(
-          d3.extent(combinedData, (d: Data) => d.date) as [number, number]
-        )
-        .nice()
-        .range([marginLeft, width - marginRight]),
-    [combinedData]
-  );
+  const x = d3
+    .scaleTime()
+    .domain(d3.extent(combinedData, (d: Data) => d.date) as [number, number])
+    .nice()
+    .range([marginLeft, width - marginRight]);
 
   const min = d3.min(combinedData, (d) => d.price) as number;
   const max = d3.max(combinedData, (d) => d.price) as number;
 
-  const y = useMemo(
-    () =>
-      d3
-        .scaleLinear()
-        .domain([min, max])
-        .range([height - marginBottom, marginTop]),
-    [combinedData]
-  );
+  const y = d3
+    .scaleLinear()
+    .domain([min, max])
+    .range([height - marginBottom, marginTop]);
 
   useEffect(() => {
     let gySelection: d3.Selection<SVGGElement, Data, any, any>;

@@ -1,6 +1,7 @@
 import { useQuery, QueryClient } from "@tanstack/react-query";
 
 import { client } from "@/lib/api-client";
+import { transformDateRangeValues } from "@/lib/date-utils";
 import { TValidationError } from "@/types";
 
 import { IGetZonePriceOutput } from "../types";
@@ -15,12 +16,14 @@ export async function getZonePrice(input: TGetZonePriceInput) {
   const params: Partial<Record<keyof TGetZonePriceInput, string>> = {
     bzn: input.bzn,
   };
-  if (input.start) {
-    params.start = input.start.toISOString();
-  }
-  if (input.end) {
-    params.end = input.end?.toISOString();
-  }
+
+  const { start, end } = transformDateRangeValues({
+    from: input.start,
+    to: input.end,
+  });
+  params.start = start.toISOString();
+  params.end = end.toISOString();
+
   // Had to use route handler due to CORS error
   const res = await client(`/${input.bzn}/api`, {
     getParams: params,

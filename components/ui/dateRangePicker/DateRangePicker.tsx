@@ -1,38 +1,42 @@
-import * as React from "react";
 import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { DateRange } from "react-day-picker";
 
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { Calendar } from "@/components/ui/calendar";
+import { Calendar, type CalendarProps } from "@/components/ui/calendar";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
+import { transformDateRangeValues } from "@/lib/date-utils";
+import { cn } from "@/lib/utils";
 
 interface IProps {
   dateRange: DateRange | undefined;
   setDateRange: (value: DateRange | undefined) => void;
   className?: string;
+  rangeTextFormatFn?: (date: DateRange | undefined) => string;
 }
 
 export const dateFormat = "dd/MM/yyyy";
 
-export const getFormattedRange = (dateRange: DateRange | undefined) => {
-  return dateRange?.from
-    ? dateRange.to
-      ? `${format(dateRange.from, dateFormat)} - ${format(dateRange.to, dateFormat)}`
-      : format(dateRange.from, dateFormat)
-    : undefined;
+export const getFormattedDaysRange = (
+  dateRange: DateRange | undefined,
+  formatPattern: string = dateFormat
+) => {
+  const { start, end } = transformDateRangeValues(dateRange);
+
+  return `${format(start, formatPattern)} - ${format(end, formatPattern)}`;
 };
 
 export function DatePickerWithRange({
   className,
   dateRange,
   setDateRange,
-}: IProps) {
+  rangeTextFormatFn = getFormattedDaysRange,
+  ...calendarProps
+}: IProps & Omit<CalendarProps, "selected" | "onSelect" | "mode">) {
   return (
     <div className={cn("grid gap-2", className)}>
       <Popover>
@@ -46,7 +50,7 @@ export function DatePickerWithRange({
             )}
           >
             <CalendarIcon className="mr-2 h-4 w-4" />
-            {getFormattedRange(dateRange) || <span>Pick a date</span>}
+            {rangeTextFormatFn(dateRange) || <span>Pick a date</span>}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-auto p-0" align="start">
@@ -57,6 +61,7 @@ export function DatePickerWithRange({
             selected={dateRange}
             onSelect={setDateRange}
             numberOfMonths={2}
+            {...calendarProps}
           />
         </PopoverContent>
       </Popover>
