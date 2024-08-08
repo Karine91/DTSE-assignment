@@ -13,7 +13,7 @@ import { getFormattedPrice } from "@/lib/format-price";
 
 import { IRegionsData } from "../types";
 
-import { NoData } from "./NoData";
+import { NoData } from "../../../components/ui/NoData";
 
 interface IRegionsTableProps {
   data: IRegionsData[];

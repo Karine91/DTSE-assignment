@@ -7,12 +7,31 @@ import { IGetZonePriceOutput } from "../types";
 
 type TGetZonePriceInput = {
   bzn: string;
-  start?: string;
-  end?: string;
+  start?: Date;
+  end?: Date;
 };
 
-export function getZonePrice(input: TGetZonePriceInput) {
-  return client("price", { getParams: input });
+export async function getZonePrice(input: TGetZonePriceInput) {
+  const params: Partial<Record<keyof TGetZonePriceInput, string>> = {
+    bzn: input.bzn,
+  };
+  if (input.start) {
+    params.start = input.start.toISOString();
+  }
+  if (input.end) {
+    params.end = input.end?.toISOString();
+  }
+  // Had to use route handler due to CORS error
+  const res = await client(`/${input.bzn}/api`, {
+    getParams: params,
+    fullPath: true,
+  });
+
+  if (res.success) {
+    return res.data;
+  } else {
+    throw new Error(res.error);
+  }
 }
 
 export function useZonePrice(input: TGetZonePriceInput) {

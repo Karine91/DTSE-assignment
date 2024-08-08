@@ -1,13 +1,11 @@
-import {
-  HydrationBoundary,
-  QueryClient,
-  dehydrate,
-} from "@tanstack/react-query";
+import { HydrationBoundary, dehydrate } from "@tanstack/react-query";
 import { Metadata } from "next";
 
 import { biddingZones } from "@/features/overview";
-import { BiddingZonePriceDetailsContainer } from "@/features/zoneDetails";
-import { prefetchZonePrice } from "@/features/zoneDetails";
+import {
+  BiddingZonePriceDetailsContainer,
+  prefetchZonePrice,
+} from "@/features/zoneDetails";
 
 type Props = {
   params: { zoneCode: string };

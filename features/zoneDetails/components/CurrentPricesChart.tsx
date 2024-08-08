@@ -14,6 +14,8 @@ const marginRight = 20;
 const marginBottom = 30;
 const marginLeft = 40;
 
+const showCirclesThreshold = 20;
+
 interface Data {
   date: number;
   price: number;
@@ -46,11 +48,14 @@ const CurrentPriceChart = ({ data }: IProps) => {
     [combinedData]
   );
 
+  const min = d3.min(combinedData, (d) => d.price) as number;
+  const max = d3.max(combinedData, (d) => d.price) as number;
+
   const y = useMemo(
     () =>
       d3
         .scaleLinear()
-        .domain([0, d3.max(combinedData, (d) => d.price) as number])
+        .domain([min, max])
         .range([height - marginBottom, marginTop]),
     [combinedData]
   );
@@ -103,7 +108,7 @@ const CurrentPriceChart = ({ data }: IProps) => {
   const areaBuilder = d3
     .area<Data>()
     .x((d) => x(d.date))
-    .y0(y(0))
+    .y0(y(min))
     .y1((d) => y(d.price));
 
   const lineBuilder = d3
@@ -111,17 +116,20 @@ const CurrentPriceChart = ({ data }: IProps) => {
     .x((d) => x(d.date))
     .y((d) => y(d.price));
 
-  const allCircles = combinedData.map((item, ind) => {
-    return (
-      <circle
-        key={ind}
-        cx={x(item.date)}
-        cy={y(item.price)}
-        r={4}
-        className="fill-sky-950"
-      />
-    );
-  });
+  const allCircles =
+    combinedData.length > showCirclesThreshold
+      ? null
+      : combinedData.map((item, ind) => {
+          return (
+            <circle
+              key={ind}
+              cx={x(item.date)}
+              cy={y(item.price)}
+              r={4}
+              className="fill-sky-950"
+            />
+          );
+        });
 
   return (
     <div className="m-10">
