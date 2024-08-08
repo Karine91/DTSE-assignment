@@ -14,8 +14,6 @@ export async function client(
     path += "?" + new URLSearchParams(getParams).toString();
   }
 
-  console.log(path);
-
   const config = {
     ...customConfig,
     headers: { "Content-Type": "application/json", ...customConfig.headers },

@@ -11,14 +11,20 @@ import { Tabs } from "@/components/ui/tabs/Tabs";
 
 import { useZonePrice } from "../api/getZonePrice";
 
-import CurrentPriceView from "./CurrentPriceView";
+import AveragePriceView from "./AveragePriceView";
+import HourlyPriceView from "./HourlyPriceView";
+
+const TabView = {
+  Hourly: "hourly",
+  Average: "average",
+};
 
 const headersList = [
-  { value: "current", children: "Current Prices" },
-  { value: "average", children: "Low, high, average data" },
+  { value: TabView.Hourly, children: "Hourly Prices" },
+  { value: TabView.Average, children: "Day average prices" },
 ];
 
-const dateFormat = "dd/mm/yyyy HH:mm";
+const dateFormat = "dd/MM/yyyy HH:mm";
 
 export const BiddingZonePriceDetailsContainer = ({
   zoneCode,
@@ -26,6 +32,7 @@ export const BiddingZonePriceDetailsContainer = ({
   zoneCode: string;
 }) => {
   const [date, setDate] = useState<DateRange | undefined>();
+  const [tabView, setTabView] = useState(TabView.Hourly);
 
   const { data, isLoading } = useZonePrice({
     bzn: zoneCode,
@@ -51,9 +58,13 @@ export const BiddingZonePriceDetailsContainer = ({
         Electricity prices: {getFormattedDaysRange(date, dateFormat)}
       </h2>
       {data ? (
-        <Tabs headersList={headersList}>
-          <CurrentPriceView data={data} date={date} />
-          <div>Average</div>
+        <Tabs
+          value={tabView}
+          onValueChange={(value) => setTabView(value)}
+          headersList={headersList}
+        >
+          <HourlyPriceView data={data} />
+          <AveragePriceView data={data} />
         </Tabs>
       ) : isLoading ? (
         "Loading..."

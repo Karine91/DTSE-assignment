@@ -2,35 +2,26 @@ import * as d3 from "d3";
 import { useRef, useEffect } from "react";
 
 import { IGetZonePriceOutput } from "../types";
+import { getCombinedDataForCharts, type Data } from "../utils";
 
 interface IProps {
   data: IGetZonePriceOutput;
 }
 
-const width = 640;
-const height = 400;
+const width = 840;
+const height = 500;
 const marginTop = 20;
 const marginRight = 20;
-const marginBottom = 30;
+const marginBottom = 60;
 const marginLeft = 40;
 
 const showCirclesThreshold = 40;
 
-interface Data {
-  date: number;
-  price: number;
-}
-
-const CurrentPriceChart = ({ data }: IProps) => {
+const HourlyPricesChart = ({ data }: IProps) => {
   const gx = useRef<SVGGElement>(null);
   const gy = useRef<SVGGElement>(null);
 
-  const combinedData = data.unix_seconds.map((item, ind) => {
-    return {
-      date: item * 1000,
-      price: data.price[ind],
-    };
-  });
+  const combinedData = getCombinedDataForCharts(data);
 
   const x = d3
     .scaleTime()
@@ -59,7 +50,14 @@ const CurrentPriceChart = ({ data }: IProps) => {
           .tickSizeOuter(0)
       );
 
-      gxSelection.exit().remove();
+      if (combinedData.length > 30) {
+        gxSelection
+          .selectAll("text")
+          .style("text-anchor", "end")
+          .attr("dx", "-.8em")
+          .attr("dy", ".15em")
+          .attr("transform", "rotate(-65)");
+      }
     }
 
     if (gy.current) {
@@ -139,4 +137,4 @@ const CurrentPriceChart = ({ data }: IProps) => {
   );
 };
 
-export default CurrentPriceChart;
+export default HourlyPricesChart;

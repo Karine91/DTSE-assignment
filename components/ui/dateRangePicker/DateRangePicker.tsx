@@ -9,7 +9,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { transformDateRangeValues } from "@/lib/date-utils";
+import { transformDateRangeValues, dateFormat } from "@/lib/date-utils";
 import { cn } from "@/lib/utils";
 
 interface IProps {
@@ -18,8 +18,6 @@ interface IProps {
   className?: string;
   rangeTextFormatFn?: (date: DateRange | undefined) => string;
 }
-
-export const dateFormat = "dd/MM/yyyy";
 
 export const getFormattedDaysRange = (
   dateRange: DateRange | undefined,

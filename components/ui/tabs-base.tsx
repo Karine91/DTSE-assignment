@@ -1,12 +1,11 @@
 "use client";
 
 import * as TabsPrimitive from "@radix-ui/react-tabs";
-import * as React from "react";
+import type { TabsProps } from "@radix-ui/react-tabs";
 import { cva, VariantProps } from "class-variance-authority";
+import * as React from "react";
 
 import { cn } from "@/lib/utils";
-
-import type { TabsProps } from "@radix-ui/react-tabs";
 
 const Tabs = (props: TabsProps) => (
   <TabsPrimitive.Root className="flex flex-col" {...props} />
