@@ -1,5 +1,7 @@
 "use client";
 
+import { usePathname, useSearchParams } from "next/navigation";
+
 import {
   Pagination,
   PaginationContent,
@@ -9,7 +11,6 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import { usePathname, useSearchParams } from "next/navigation";
 import { generatePagination } from "@/lib/generate-pagination";
 
 export const SearchParamsPagination = ({
@@ -40,7 +41,7 @@ export const SearchParamsPagination = ({
         </PaginationItem>
         {allPages.map((page, index) => {
           return (
-            <PaginationItem>
+            <PaginationItem key={index}>
               {page === "..." ? (
                 <PaginationEllipsis />
               ) : (
