@@ -18,11 +18,11 @@ export const InputField = ({
 }: IInputProps) => {
   const id = useId();
   return (
-    <div>
+    <>
       <Label htmlFor={id} className={labelClasses} {...labelProps}>
         {label}
       </Label>
       <Input id={id} type={type} {...inputProps} />
-    </div>
+    </>
   );
 };

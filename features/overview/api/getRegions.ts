@@ -18,6 +18,8 @@ const getRegionName = (name: TName[] | TName) => {
   return name.en;
 };
 
+const ITEMS_PER_PAGE = 10;
+
 function transformResponseData(data: TDayPriceAverageData, search?: string) {
   const date = new Date().toLocaleDateString();
   const dataIndex = data[0].xAxisValues.findIndex((item) => item === date);
@@ -49,16 +51,29 @@ function transformResponseData(data: TDayPriceAverageData, search?: string) {
           : true
         : false;
     })
-    .sort((a, b) => a.price - b.price);
+    .sort((a, b) => a.price - b.price)
+    .map((item, ind) => ({
+      ...item,
+      index: ind + 1,
+    }));
 }
 
-export async function getRegions({ search }: TGetRegionsProps) {
+function getPaginatedData(data: IRegionsData[], page: number) {
+  const offset = (page - 1) * ITEMS_PER_PAGE;
+  console.log(page, "page");
+  return {
+    data: data.slice(offset, offset + ITEMS_PER_PAGE),
+    totalPages: Math.ceil(data.length / ITEMS_PER_PAGE),
+  };
+}
+
+export async function getRegions({ search, page }: TGetRegionsProps) {
   const date = new Date();
   const year = date.getFullYear();
 
   const month = date.getMonth() + 1;
 
-  // it is not the public api url from the provided api link but gives needed information
+  // it is not the public api url from the provided api link but gives information needed for task
   const data: TDayPriceAverageData = await client(
     `https://energy-charts.info/charts/price_average/data/all/day_month_euro_mwh_${year}_${
       month < 10 ? "0" + month : month
@@ -66,5 +81,8 @@ export async function getRegions({ search }: TGetRegionsProps) {
     { fullPath: true }
   );
 
-  return transformResponseData(data, search);
+  const transformedData = transformResponseData(data, search);
+
+  console.log("page", page);
+  return getPaginatedData(transformedData, page);
 }

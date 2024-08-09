@@ -111,7 +111,12 @@ const HourlyPricesChart = ({ data, dataUnit }: ChartProps) => {
 
   return (
     <div className="m-10">
-      <svg width={width} height={height} viewBox={`0 0 ${width} ${height}`}>
+      <svg
+        className="max-w-full"
+        width={width}
+        height={height}
+        viewBox={`0 0 ${width} ${height}`}
+      >
         <path
           d={areaBuilder(data) as string}
           className="area text-sky-200 fill-current"

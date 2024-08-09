@@ -2,47 +2,39 @@
 
 import { Search as SearchIcon } from "lucide-react";
 import { useSearchParams, useRouter, usePathname } from "next/navigation";
-import { useState } from "react";
+import { useDebouncedCallback } from "use-debounce";
 
-import { Button } from "@/components/ui/button";
 import { InputField } from "@/components/ui/form/InputField";
 
 export const Search = () => {
   const searchParams = useSearchParams();
-  const router = useRouter();
+  const { replace } = useRouter();
   const pathname = usePathname();
-  const search = searchParams.get("search");
-  const [searchInput, setSearchInput] = useState(search || "");
 
-  const handleSearch = (e: React.FormEvent) => {
-    e.preventDefault();
-    const newSearchParams = new URLSearchParams(searchParams.toString());
-    if (searchInput) {
-      newSearchParams.set("search", searchInput);
+  const handleSearch = useDebouncedCallback((term: string) => {
+    const params = new URLSearchParams(searchParams);
+    params.set("page", "1");
+    if (term) {
+      params.set("search", term);
     } else {
-      newSearchParams.delete("search");
+      params.delete("search");
     }
-
-    router.push(`${pathname}?${newSearchParams}`);
-  };
-
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchInput(e.target.value.trim());
-  };
+    replace(`${pathname}?${params.toString()}`);
+  }, 500);
 
   return (
-    <form className="flex items-center" onSubmit={handleSearch}>
+    <div className="relative flex flex-1 flex-shrink-0 ">
       <InputField
         label={"Search"}
-        labelClasses="hidden"
+        labelClasses="sr-only"
+        className="peer block py-[9px] pl-10 text-sm outline-2"
         placeholder="Search..."
         name="search"
-        value={searchInput}
-        onChange={handleInputChange}
+        defaultValue={searchParams.get("search")?.toString()}
+        onChange={(e) => handleSearch(e.target.value)}
       />
-      <Button className="ml-3">
-        <SearchIcon className="h-4 w-4" />
-      </Button>
-    </form>
+
+      <SearchIcon className="absolute left-3 top-1/2 h-[18px] w-[18px] -translate-y-1/2 text-gray-500 peer-focus:text-gray-900" />
+    </div>
   );
 };

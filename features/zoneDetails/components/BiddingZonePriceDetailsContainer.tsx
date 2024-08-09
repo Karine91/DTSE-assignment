@@ -11,8 +11,8 @@ import { Tabs } from "@/components/ui/tabs/Tabs";
 
 import { useZonePrice } from "../api/getZonePrice";
 
-import AveragePriceView from "./AveragePriceView";
-import HourlyPriceView from "./HourlyPriceView";
+import AveragePriceChart from "./AveragePriceChart";
+import HourlyPricesChart from "./HourlyPricesChart";
 import BackButton from "@/components/ui/BackButton";
 import { getCombinedDataForCharts } from "../utils";
 
@@ -49,7 +49,7 @@ export const BiddingZonePriceDetailsContainer = ({
   const chartData = data && getCombinedDataForCharts(data);
 
   return (
-    <div className="w-4/5 flex-grow">
+    <div className="flex-grow w-full">
       <BackButton variant={"secondary"} backUrl="/" />
       <div className="flex justify-end items-center mb-5 gap-2">
         <Label>Select date: </Label>
@@ -67,9 +67,10 @@ export const BiddingZonePriceDetailsContainer = ({
           value={tabView}
           onValueChange={(value) => setTabView(value)}
           headersList={headersList}
+          tabsContentWrapperClass="lg:m-10 m-2 empty:m-0 flex flex-col justify-center"
         >
-          <HourlyPriceView data={chartData} dataUnit={data.unit} />
-          <AveragePriceView data={chartData} dataUnit={data.unit} />
+          <HourlyPricesChart data={chartData} dataUnit={data.unit} />
+          <AveragePriceChart data={chartData} dataUnit={data.unit} />
         </Tabs>
       ) : isLoading ? (
         "Loading..."

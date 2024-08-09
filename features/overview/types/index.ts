@@ -12,10 +12,11 @@ export interface IDayPriceAverageDataItem {
 }
 
 export type TDayPriceAverageData = IDayPriceAverageDataItem[];
-export type TGetRegionsProps = { search: string | undefined };
+export type TGetRegionsProps = { search?: string; page: number };
 export interface IRegionsData {
   price: number;
   unit: string;
   name: string;
   zoneCode: string;
+  index: number;
 }

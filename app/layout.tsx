@@ -27,7 +27,7 @@ export default function RootLayout({
         )}
       >
         <AppProvider>
-          <main className="flex min-h-screen items-center flex-col p-24">
+          <main className="flex min-h-screen items-center flex-col lg:p-24 p-6">
             {children}
           </main>
         </AppProvider>

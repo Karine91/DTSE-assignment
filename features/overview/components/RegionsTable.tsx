@@ -36,12 +36,12 @@ export const RegionsTable = ({ data }: IRegionsTableProps) => {
         </TableRow>
       </TableHeader>
       <TableBody>
-        {data.map((item, ind) => (
+        {data.map((item) => (
           <TableRow
             key={item.zoneCode}
             className="odd:bg-white even:bg-slate-50 hover:bg-slate-200 group/item"
           >
-            <TableCell className="font-medium ">{ind + 1}</TableCell>
+            <TableCell className="font-medium ">{item.index}</TableCell>
             <TableCell>{item.name}</TableCell>
             <TableCell className="text-right">
               {getFormattedPrice(item.price)} {item.unit}

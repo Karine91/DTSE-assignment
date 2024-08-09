@@ -3,6 +3,7 @@ import type { PageProps } from "@/types";
 
 export default async function Home({ searchParams }: PageProps) {
   const search = searchParams.search as string;
+  const page = Number(searchParams.page) || 1;
 
   return (
     <>
@@ -10,11 +11,11 @@ export default async function Home({ searchParams }: PageProps) {
         Overview
       </h1>
 
-      <div className="flex justify-center my-3">
+      <div className="flex justify-center my-3 w-3/5">
         <Search />
       </div>
 
-      <RegionsList search={search} />
+      <RegionsList search={search} page={page} />
     </>
   );
 }

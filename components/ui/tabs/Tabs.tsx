@@ -29,6 +29,11 @@ interface ITabsProps extends TabsProps {
    * Align tabs buttons (triggers)
    */
   tabsTriggerAlign?: "start" | "center" | "end";
+
+  /**
+   * Class for TabsContent component
+   */
+  tabsContentWrapperClass?: string;
 }
 
 /**
@@ -40,6 +45,7 @@ export const Tabs = ({
   defaultValue = headersList[0].value,
   value,
   tabsTriggerAlign = "start",
+  tabsContentWrapperClass,
   ...tabsProps
 }: ITabsProps) => {
   const childrenArray = React.Children.toArray(children);
@@ -53,7 +59,11 @@ export const Tabs = ({
       </TabsList>
       {childrenArray.map((child, ind) => {
         return (
-          <TabsContent key={ind} value={headersList[ind].value}>
+          <TabsContent
+            className={tabsContentWrapperClass}
+            key={ind}
+            value={headersList[ind].value}
+          >
             {child}
           </TabsContent>
         );
