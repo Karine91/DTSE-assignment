@@ -60,7 +60,7 @@ function transformResponseData(data: TDayPriceAverageData, search?: string) {
 
 function getPaginatedData(data: IRegionsData[], page: number) {
   const offset = (page - 1) * ITEMS_PER_PAGE;
-  console.log(page, "page");
+
   return {
     data: data.slice(offset, offset + ITEMS_PER_PAGE),
     totalPages: Math.ceil(data.length / ITEMS_PER_PAGE),
@@ -83,6 +83,5 @@ export async function getRegions({ search, page }: TGetRegionsProps) {
 
   const transformedData = transformResponseData(data, search);
 
-  console.log("page", page);
   return getPaginatedData(transformedData, page);
 }
