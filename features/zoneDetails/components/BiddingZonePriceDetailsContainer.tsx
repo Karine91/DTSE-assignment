@@ -5,7 +5,7 @@ import { useState } from "react";
 import type { DateRange } from "react-day-picker";
 
 import { DatePickerWithRange } from "@/components/ui/dateRangePicker";
-import { getFormattedDaysRange } from "@/components/ui/dateRangePicker";
+import { getFormattedDaysRange } from "@/lib/date-utils";
 import { Label } from "@/components/ui/form/label";
 import { Tabs } from "@/components/ui/tabs/Tabs";
 

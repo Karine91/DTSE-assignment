@@ -2,6 +2,7 @@ import * as d3 from "d3";
 import { useRef, useEffect } from "react";
 
 import { ChartProps, ChartData } from "../types";
+import LowestHighestPricesInfo from "./LowestHighestPricesInfo";
 
 const width = 840;
 const height = 500;
@@ -132,6 +133,12 @@ const HourlyPricesChart = ({ data, dataUnit }: ChartProps) => {
 
         <g ref={gy} transform={`translate(${marginLeft}, 0)`} />
       </svg>
+      <LowestHighestPricesInfo
+        title="Hourly prices"
+        min={min}
+        max={max}
+        dataUnit={dataUnit}
+      />
     </div>
   );
 };

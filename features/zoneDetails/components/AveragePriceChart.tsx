@@ -6,6 +6,7 @@ import { useRef, useEffect } from "react";
 import { dateFormat } from "@/lib/date-utils";
 
 import { ChartProps, ChartData } from "../types";
+import LowestHighestPricesInfo from "./LowestHighestPricesInfo";
 
 const width = 928;
 const height = 500;
@@ -31,6 +32,9 @@ const AveragePriceHistogramChart = ({ data, dataUnit }: ChartProps) => {
 
   const dataSource = transformData(data);
 
+  const max = d3.max(dataSource, (d) => d.price) as number;
+  const min = d3.min(dataSource, (d) => d.price) as number;
+
   const x = d3
     .scaleBand()
     .domain(dataSource.map((d) => d.date))
@@ -39,7 +43,7 @@ const AveragePriceHistogramChart = ({ data, dataUnit }: ChartProps) => {
 
   const y = d3
     .scaleLinear()
-    .domain([0, d3.max(dataSource, (d) => d.price) as number])
+    .domain([0, max])
     .range([height - marginBottom, marginTop]);
 
   useEffect(() => {
@@ -90,6 +94,13 @@ const AveragePriceHistogramChart = ({ data, dataUnit }: ChartProps) => {
           </text>
         </g>
       </svg>
+
+      <LowestHighestPricesInfo
+        title="Average price per day"
+        min={min}
+        max={max}
+        dataUnit={dataUnit}
+      />
     </div>
   );
 };

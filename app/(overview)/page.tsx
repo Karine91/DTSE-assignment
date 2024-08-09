@@ -1,7 +1,7 @@
 import { RegionsList, Search } from "@/features/overview";
 import type { PageProps } from "@/types";
 
-export default async function Home({ searchParams }: PageProps) {
+export default async function Overview({ searchParams }: PageProps) {
   const search = searchParams.search as string;
   const page = Number(searchParams.page) || 1;
 

@@ -1,4 +1,3 @@
-import { format } from "date-fns";
 import { Calendar as CalendarIcon } from "lucide-react";
 import { DateRange } from "react-day-picker";
 
@@ -9,7 +8,7 @@ import {
   PopoverContent,
   PopoverTrigger,
 } from "@/components/ui/popover";
-import { transformDateRangeValues, dateFormat } from "@/lib/date-utils";
+import { getFormattedDaysRange } from "@/lib/date-utils";
 import { cn } from "@/lib/utils";
 
 interface IProps {
@@ -18,15 +17,6 @@ interface IProps {
   className?: string;
   rangeTextFormatFn?: (date: DateRange | undefined) => string;
 }
-
-export const getFormattedDaysRange = (
-  dateRange: DateRange | undefined,
-  formatPattern: string = dateFormat
-) => {
-  const { start, end } = transformDateRangeValues(dateRange);
-
-  return `${format(start, formatPattern)} - ${format(end, formatPattern)}`;
-};
 
 export function DatePickerWithRange({
   className,
