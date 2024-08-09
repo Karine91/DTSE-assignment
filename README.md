@@ -15,7 +15,7 @@ Direct request for Energy-charts API fails due to CORS issue, as workaround gett
 
 Overview page with search functionality implemented with server components
 
-Details page contain 2 tabs: first shows the data for every hour, the second shows bar chart with average price data within a day. Data can be filtered by selecting date range. By default data is shown for current day.
+The details page contains 2 tabs: the first shows the data for every hour, and the second shows a bar chart with average price data within a day. Data can be filtered by selecting a date range. By default, data is shown for the current day.
 
 Tech Stack:
 
