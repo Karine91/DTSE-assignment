@@ -1,6 +1,6 @@
 import { startOfDay, isBefore, endOfDay, isSameDay, isEqual } from "date-fns";
-import type { DateRange } from "react-day-picker";
 import { format } from "date-fns";
+import type { DateRange } from "react-day-picker";
 export const dateFormat = "dd/MM/yyyy";
 
 export const transformDateRangeValues = (dateRange?: DateRange) => {

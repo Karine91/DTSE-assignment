@@ -1,5 +1,6 @@
-import { Spinner, LoadingProps } from "./spinner";
 import { cn } from "@/lib/utils";
+
+import { Spinner, LoadingProps } from "./spinner";
 
 const Loader = ({ className, ...spinnerProps }: LoadingProps) => {
   return (

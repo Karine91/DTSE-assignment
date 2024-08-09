@@ -1,5 +1,6 @@
-import { getFormattedDaysRange } from "./date-utils";
 import { render, screen } from "@/testing/test-utils";
+
+import { getFormattedDaysRange } from "./date-utils";
 
 describe("date range format", () => {
   beforeAll(() => {
