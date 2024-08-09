@@ -12,7 +12,7 @@ const LowestHighestPricesInfo = ({ max, min, dataUnit, title }: Props) => {
   const minPrice = getFormattedPrice(min);
   return (
     <div>
-      <h3 className="font-medium my-3 text-lg">{title}</h3>
+      <h3 className="font-medium my-3 text-base md:text-lg">{title}</h3>
       {maxPrice === minPrice ? (
         <span>
           {maxPrice} {dataUnit}

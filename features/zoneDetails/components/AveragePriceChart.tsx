@@ -67,9 +67,9 @@ const AveragePriceHistogramChart = ({ data, dataUnit }: ChartProps) => {
   }, [x, y]);
 
   return (
-    <div className="m-10">
+    <div className="md:m-10 sm:m-5 m-2">
       <svg
-        className="max-w-full"
+        className="max-w-full md:h-auto h-60 sm:h-80"
         width={width}
         height={height}
         viewBox={`0 0 ${width} ${height}`}

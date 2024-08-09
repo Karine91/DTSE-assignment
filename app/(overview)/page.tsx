@@ -11,7 +11,7 @@ export default async function Overview({ searchParams }: PageProps) {
         Overview
       </h1>
 
-      <div className="flex justify-center my-3 w-3/5">
+      <div className="flex justify-center my-3 w-full md:w-3/5">
         <Search />
       </div>
 

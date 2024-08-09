@@ -22,9 +22,11 @@ const spinner = cva(
       size: {
         small: ["w-6 h-6"],
         medium: ["w-10 h-10"],
+        large: ["w-20 h-20"],
       },
       thickness: {
         regular: ["border-2"],
+        bold: ["border-4"],
       },
     },
     defaultVariants: {

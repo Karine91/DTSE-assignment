@@ -12,7 +12,7 @@ export const RegionsList = async ({
 }) => {
   const { data, totalPages } = await getRegions({ search, page });
   return (
-    <section className="w-9/12">
+    <section className="w-full lg:w-9/12">
       <RegionsTable data={data} />
       <SearchParamsPagination totalPages={totalPages} />
     </section>
